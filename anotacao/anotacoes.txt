@@ -1,0 +1,2 @@
+grafos dirigidos e não dirigidos:
+    - Dirigidos significa que as arestas tem sentido. digraph
