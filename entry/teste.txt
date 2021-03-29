@@ -1,9 +1,8 @@
 s0 ; s2
-s0 a > s0 
-s0 b > s1
-s1 a > s1
-s1 b > s2
-s2 a > s2
-s2 b > s2
-wrd:aabb
-    
+s0 0 > s0 
+s0 1 > s1
+s1 0 > s1
+s1 1 > s2
+s2 0 > s2
+s2 1 > s2
+wrd:0011
