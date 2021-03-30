@@ -1,7 +1,9 @@
 from files.readText import *
+from files.generateDot import *
 from states.generatestates import *
 
 states = readFile('entry/teste.txt')
 
-stateif = generatestates.getInitialFinal(states)
-generatestates.getTransitions(states)
+statef = generatestates.getInitialFinal(states)
+ltrans = generatestates.getTransitions(states)
+gerarDotInitial(statef, ltrans)
