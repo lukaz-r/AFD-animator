@@ -3,6 +3,11 @@ digraph maquina_de_estados {
 	size="10"
 	node [shape = doublecircle];
 	s2
+	node [shape = point];
+	p
+	node [shape = circle];
+	error [styled=filled, fillcolor=white];
+	p -> s0
 	node [shape = circle];
 	s0 -> s0 [label = "0"];
 	s0 -> s1 [label = "1"];

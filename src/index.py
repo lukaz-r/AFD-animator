@@ -4,6 +4,6 @@ from states.generatestates import *
 
 states = readFile('entry/teste.txt')
 
-statef = generatestates.getInitialFinal(states)
+statei, statef = generatestates.getInitialFinal(states)
 ltrans = generatestates.getTransitions(states)
-gerarDotInitial(statef, ltrans)
+gerarDotInitial(statei, statef, ltrans)
