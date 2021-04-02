@@ -17,6 +17,14 @@ class generatestates:
         listai = listai[0].split(' ')
         return listai, listaf
 
+    def getWord(lstates: list):
+        tam = len(lstates)
+        word = lstates[tam - 1]
+        wordaux = word.split(':')
+        word = list(wordaux[1])
+        # Cada simbolo da palavra em uma posicao do array
+        return word
+
     def getTransitions(lstates: list):
         tam = len(lstates)
         transit = []

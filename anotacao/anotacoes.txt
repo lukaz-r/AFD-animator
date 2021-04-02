@@ -1,2 +1,14 @@
 grafos dirigidos e não dirigidos:
     - Dirigidos significa que as arestas tem sentido. digraph
+
+if (currentState[0] == k.origem and ):
+            arquivo.write(k.origem + " -> " + k.destino + "[label = " + "\"" +
+                          k.trans + "\"" + "]" + "[color=lime];" + "\n\t")
+
+
+
+  if (tam == len(simb)):
+            gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS, tam,
+                                verifica[0])
+        else:
+            gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS, tam, l)

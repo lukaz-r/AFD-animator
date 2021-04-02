@@ -6,13 +6,13 @@ digraph maquina_de_estados {
 	node [shape = point];
 	p
 	node [shape = circle];
-	error [styled=filled, fillcolor=white];
+	error [style=filled, fillcolor=white];
 	p -> s0
 	node [shape = circle];
-	s0 -> s0 [label = "0"];
-	s0 -> s1 [label = "1"];
-	s1 -> s1 [label = "0"];
-	s1 -> s2 [label = "1"];
-	s2 -> s2 [label = "0"];
-	s2 -> s2 [label = "1"];
+	s0 -> s0 [label = "a"][color=black];
+	s0 -> s1 [label = "b"][color=black];
+	s1 -> s1 [label = "a"][color=black];
+	s1 -> s2 [label = "b"][color=black];
+	s2 -> s2 [label = "a"][color=black];
+	s2 -> s2 [label = "b"][color=black];
 	}
