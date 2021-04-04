@@ -1,0 +1,19 @@
+digraph maquina_de_estados { 
+	rankdir=LR;
+	size="10"
+	node [shape = doublecircle];
+	s2
+	node [shape = point];
+	p
+	node [shape = circle];
+	error [style=filled, fillcolor=white];
+	p -> s0
+	node [shape = circle];
+	s1[style=filled, fillcolor=gray]
+	s0 -> s0[label = "a"][color=black];
+	s0 -> s1[label = "b"][color=black];
+	s1 -> s1[label = "a"][color=magenta];
+	s1 -> s2[label = "b"][color=magenta];
+	s2 -> s2[label = "a"][color=black];
+	s2 -> s2[label = "b"][color=black];
+	}

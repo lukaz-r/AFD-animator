@@ -15,7 +15,15 @@ class generatestates:
         listaf = listaf[0].split(' ')
         listai = [x.strip(' ') for x in listai]  # tira espaços dos elementos
         listai = listai[0].split(' ')
-        return listaf
+        return listai, listaf
+
+    def getWord(lstates: list):
+        tam = len(lstates)
+        word = lstates[tam - 1]
+        wordaux = word.split(':')
+        word = list(wordaux[1])
+        # Cada simbolo da palavra em uma posicao do array
+        return word
 
     def getTransitions(lstates: list):
         tam = len(lstates)

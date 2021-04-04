@@ -1,0 +1,25 @@
+digraph maquina_de_estados { 
+	rankdir=LR;
+	size="10"
+	node [shape = doublecircle];
+	s2
+	node [shape = point];
+	p
+	node [shape = circle];
+	error [style=filled, fillcolor=white];
+	p -> s0
+	node [shape = circle];
+
+	//Estados correntes
+	s0[style=filled, fillcolor=white] 
+	s1[style=filled, fillcolor=gray] 
+	s2[style=filled, fillcolor=gray]
+	
+	//transicoes de arestas
+	s0 -> s0 [label = "0"][color=magenta]; //label
+	s0 -> s1 [label = "1"][color=magenta]; // label
+	s1 -> s1 [label = "0"];
+	s1 -> s2 [label = "1"];
+	s2 -> s2 [label = "0"];
+	s2 -> s2 [label = "1"];
+	}

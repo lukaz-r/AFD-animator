@@ -4,6 +4,14 @@ from states.generatestates import *
 
 states = readFile('entry/teste.txt')
 
-statef = generatestates.getInitialFinal(states)
+#Gerei estados iniciais e finais
+statei, statef = generatestates.getInitialFinal(states)
+#Gerei a palavra
+word = generatestates.getWord(states)
+#Gerei as transicoes
 ltrans = generatestates.getTransitions(states)
-gerarDotInitial(statef, ltrans)
+#gerei automato inicial
+gerarDotInitial(statei, statef, ltrans)
+#Gerei transicao
+#gerarDotTransicoes(statei, statef, ltrans, word, 0)
+estadosCorrentes(statei, statef, ltrans, word)
