@@ -10,10 +10,12 @@ digraph maquina_de_estados {
 	p -> s0
 	node [shape = circle];
 	s2[style=filled, fillcolor=gray]
+	s1[style=filled, fillcolor=gray]
 	s0 -> s0[label = "a"][color=black];
+	s0 -> s1[label = "a"][color=black];
 	s0 -> s1[label = "b"][color=black];
-	s1 -> s1[label = "a"][color=black];
-	s1 -> s2[label = "b"][color=black];
+	s1 -> s1[label = "a"][color=magenta];
+	s1 -> s2[label = "b"][color=magenta];
 	s2 -> s2[label = "a"][color=magenta];
 	s2 -> s2[label = "b"][color=magenta];
 	}
