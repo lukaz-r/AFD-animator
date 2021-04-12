@@ -16,7 +16,7 @@ def gerarDotInitial(lstadosi: list, lstadosf: list, ltrans: list):
     arquivo.write("node [shape = point];\n\t")
     arquivo.write("p\n\t")
     arquivo.write("node [shape = circle];\n\t")
-    arquivo.write("error [style=filled, fillcolor=white];\n\t")
+    #arquivo.write("error [style=filled, fillcolor=white];\n\t")
     for j in lstadosi:
         arquivo.write("p -> " + j + "\n\t")
     arquivo.write("node [shape = circle];\n\t")
@@ -34,18 +34,27 @@ def gerarDotInitial(lstadosi: list, lstadosf: list, ltrans: list):
 def estadosCorrentes(lstadosi: list, lstadosf: list, ltrans: list, simb: list):
     tam = 0
     gerarDotTransicoes2(lstadosi, lstadosf, ltrans, lstadosi, tam, simb[0])
-
     trans = []
     converte = []
     converte2 = []
     currentS0 = []
     verifica = ["ok"]
+    passa = []
     #verifica = ["ok"]
     #Copia profunda no python
     currentS = deepcopy(lstadosi)
-    simb.append('ok')
+    #simb.append('ok')
 
-    for l in simb:
+    # #manipular vetor
+    # print(simb)
+    # simb.pop(0)
+    #simb.append('*')
+    # print(simb)
+    passa = deepcopy(simb)
+    passa.pop(0)
+    passa.append('*')
+
+    for l, p in zip(simb, passa):
         tam += 1
         trans.clear()
 
@@ -59,19 +68,18 @@ def estadosCorrentes(lstadosi: list, lstadosf: list, ltrans: list, simb: list):
         for k in trans:
             if l == k.trans:
                 currentS.append(k.destino)
+        currentS0 = deepcopy(list(set(currentS)))
 
-        currentS0 = list(set(currentS))
-        print(currentS0)
-
-        if (tam == 1):
-            gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS0, tam,
-                                verifica)
+        #print(currentS0)
+        # if (tam == 1):
+        #     gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS0, tam,
+        #                         verifica)
 
         # elif (tam != 1):
         #     print(l)
         #     gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS, tam, l)
-
-        gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS0, tam, l)
+        print(passa)
+        gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS0, tam, p)
 
 
 def gerarDotTransicoes(lstadosi: list, lstadosf: list, ltrans: list,
@@ -116,7 +124,7 @@ def gerarDotTransicoes2(lstadosi: list, lstadosf: list, ltrans: list,
     currentState = deepcopy(estado)
     tam = str(tam)
     tamT = 0
-
+    #print(simb)
     arquivo = open('dotfiles/arq_' + tam + '.dot', 'w')
     arquivo.write("digraph maquina_de_estados { \n\t")
     arquivo.write("rankdir=LR;\n\t")
@@ -127,7 +135,7 @@ def gerarDotTransicoes2(lstadosi: list, lstadosf: list, ltrans: list,
     arquivo.write("node [shape = point];\n\t")
     arquivo.write("p\n\t")
     arquivo.write("node [shape = circle];\n\t")
-    arquivo.write("error [style=filled, fillcolor=white];\n\t")
+    #arquivo.write("error [style=filled, fillcolor=white];\n\t")
     for j in lstadosi:
         arquivo.write("p -> " + j + "\n\t")
     arquivo.write("node [shape = circle];\n\t")
@@ -144,12 +152,13 @@ def gerarDotTransicoes2(lstadosi: list, lstadosf: list, ltrans: list,
 
             tamT += 1
 
-            # if (t == k.origem and simb == k.trans):
-            #     arquivo.write(k.origem + " -> " + k.destino + "[label = " +
-            #                   "\"" + k.trans + "\"" + "]" + "[color=lime];" +
-            #                   "\n\t")
+            if (simb[0] == "*"):
+                arquivo.write(k.origem + " -> " + k.destino + "[label = " +
+                              "\"" + k.trans + "\"" + "]" + "[color=black];" +
+                              "\n\t")
+                break
 
-            if (t == k.origem):
+            if (t == k.origem and k.trans == simb[0]):
                 arquivo.write(k.origem + " -> " + k.destino + "[label = " +
                               "\"" + k.trans + "\"" + "]" +
                               "[color=magenta];" + "\n\t")
@@ -163,12 +172,6 @@ def gerarDotTransicoes2(lstadosi: list, lstadosf: list, ltrans: list,
                     arquivo.write(k.origem + " -> " + k.destino + "[label = " +
                                   "\"" + k.trans + "\"" + "]" +
                                   "[color=black];" + "\n\t")
-
-            # else:
-            #     if (tamT == currentState.index(currentState[-1])):
-            #         arquivo.write(k.origem + " -> " + k.destino + "[label = " +
-            #                       "\"" + k.trans + "\"" + "]" +
-            #                       "[color=black];" + "\n\t")
 
     arquivo.write("}")
     arquivo.close()
