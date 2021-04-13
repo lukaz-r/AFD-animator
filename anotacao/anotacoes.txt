@@ -12,3 +12,126 @@ if (currentState[0] == k.origem and ):
                                 verifica[0])
         else:
             gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS, tam, l)
+
+
+
+/////////////////////////////
+
+for k in ltrans:
+        # if (currentState[0] == k.origem and k.trans == simb[0]):
+        #     arquivo.write(k.origem + " -> " + k.destino + "[label = " + "\"" +
+        #                   k.trans + "\"" + "]" + "[color=lime];" + "\n\t")
+
+        if (currentState[0] == k.origem):
+            arquivo.write(k.origem + " -> " + k.destino + "[label = " + "\"" +
+                          k.trans + "\"" + "]" + "[color=magenta];" + "\n\t")
+        else:
+            arquivo.write(k.origem + " -> " + k.destino + "[label = " + "\"" +
+                          k.trans + "\"" + "]" + "[color=black];" + "\n\t")
+
+
+
+///////////// antiga transicao
+
+
+
+def estadosCorrentes(lstadosi: list, lstadosf: list, ltrans: list, simb: list):
+    tam = 0
+    gerarDotTransicoes2(lstadosi, lstadosf, ltrans, lstadosi, tam, simb[0])
+
+    trans = []
+    converte = []
+    #verifica = ["ok"]
+    #Copia profunda no python
+    currentS = deepcopy(lstadosi)
+    simb.append('ok')
+
+    for l in simb:
+        #print(l)
+        tam += 1
+        trans.clear()
+
+        #pega os destinos do estado corrente
+        for i in ltrans:
+            if currentS[0] == i.origem:
+                trans.append(i.destino)
+        #print(trans)
+
+        #pega o alfabeto
+        converte.clear()
+        for j in ltrans:
+            if j.trans not in converte:
+                converte.append(j.trans)
+
+        #pega estado corrente
+        for k in converte:
+            if (l == k):
+                currentS[0] = trans[converte.index(k)]
+
+        if (tam == len(simb)):
+            gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS, tam, l)
+
+        # elif (tam != 1):
+        #     print(l)
+        #     gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS, tam, l)
+
+        else:
+            print(currentS)
+            gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS, tam, l)
+
+////////// transicao com palavra unificada
+
+
+
+def estadosCorrentes(lstadosi: list, lstadosf: list, ltrans: list, simb: list):
+    tam = 0
+    gerarDotTransicoes2(lstadosi, lstadosf, ltrans, lstadosi, tam, simb[0])
+
+    trans = []
+    converte = []
+    converte2 = []
+    #verifica = ["ok"]
+    #Copia profunda no python
+    currentS = deepcopy(lstadosi)
+    simb.append('ok')
+
+    for l in simb:
+        #print(l)
+        tam += 1
+        trans.clear()
+
+        #pega os destinos do estado corrente
+
+        for m in currentS:  # estado corrente
+            for i in ltrans:  # transicoes
+                if m == i.origem:
+                    trans.append(i.destino)
+        #print(trans)
+
+        #pega o alfabeto
+        converte.clear()
+        converte2.clear()
+        for j in currentS:
+            converte.clear()
+            for n in ltrans:
+                if n.origem == j:
+                    converte.append(n.trans)
+            converte2.append(''.join(converte))
+        print(converte2)
+
+        #pega estado corrente
+        for k in converte:
+            if (l == k):
+                currentS[0] = trans[converte.index(k)]
+
+        if (tam == len(simb)):
+            gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS, tam, l)
+
+        # elif (tam != 1):
+        #     print(l)
+        #     gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS, tam, l)
+
+        else:
+            #print(currentS)
+            gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS, tam, l)
+

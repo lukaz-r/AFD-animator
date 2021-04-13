@@ -1,5 +1,6 @@
 from bash.generateBash import run_script
 from copy import deepcopy
+from automata.generateDestination import *
 
 
 # Gera automato inicial
@@ -15,7 +16,7 @@ def gerarDotInitial(lstadosi: list, lstadosf: list, ltrans: list):
     arquivo.write("node [shape = point];\n\t")
     arquivo.write("p\n\t")
     arquivo.write("node [shape = circle];\n\t")
-    arquivo.write("error [style=filled, fillcolor=white];\n\t")
+    #arquivo.write("error [style=filled, fillcolor=white];\n\t")
     for j in lstadosi:
         arquivo.write("p -> " + j + "\n\t")
     arquivo.write("node [shape = circle];\n\t")
@@ -33,45 +34,52 @@ def gerarDotInitial(lstadosi: list, lstadosf: list, ltrans: list):
 def estadosCorrentes(lstadosi: list, lstadosf: list, ltrans: list, simb: list):
     tam = 0
     gerarDotTransicoes2(lstadosi, lstadosf, ltrans, lstadosi, tam, simb[0])
-
     trans = []
     converte = []
+    converte2 = []
+    currentS0 = []
+    verifica = ["ok"]
+    passa = []
     #verifica = ["ok"]
     #Copia profunda no python
     currentS = deepcopy(lstadosi)
-    simb.append('ok')
+    #simb.append('ok')
 
-    for l in simb:
-        #print(l)
+    # #manipular vetor
+    # print(simb)
+    # simb.pop(0)
+    #simb.append('*')
+    # print(simb)
+    passa = deepcopy(simb)
+    passa.pop(0)
+    passa.append('*')
+
+    for l, p in zip(simb, passa):
         tam += 1
         trans.clear()
 
         #pega os destinos do estado corrente
-        for i in ltrans:
-            if currentS[0] == i.origem:
-                trans.append(i.destino)
-        print(trans)
+        for m in currentS:  # estado corrente
+            for i in ltrans:  # transicoes
+                if m == i.origem:
+                    trans.append(i)
 
-        converte.clear()
-        #pega o alfabeto
-        for j in ltrans:
-            if j.trans not in converte:
-                converte.append(j.trans)
+        currentS.clear()
+        for k in trans:
+            if l == k.trans:
+                currentS.append(k.destino)
+        currentS0 = deepcopy(list(set(currentS)))
 
-        #pega estado corrente
-        for k in converte:
-            if (l == k):
-                currentS[0] = trans[converte.index(k)]
-
-        if (tam == len(simb)):
-            gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS, tam, l)
+        #print(currentS0)
+        # if (tam == 1):
+        #     gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS0, tam,
+        #                         verifica)
 
         # elif (tam != 1):
         #     print(l)
         #     gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS, tam, l)
-
-        else:
-            gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS, tam, l)
+        print(passa)
+        gerarDotTransicoes2(lstadosi, lstadosf, ltrans, currentS0, tam, p)
 
 
 def gerarDotTransicoes(lstadosi: list, lstadosf: list, ltrans: list,
@@ -113,9 +121,10 @@ def gerarDotTransicoes(lstadosi: list, lstadosf: list, ltrans: list,
 
 def gerarDotTransicoes2(lstadosi: list, lstadosf: list, ltrans: list,
                         estado: list, tam: int, simb: list):
-    currentState = estado
+    currentState = deepcopy(estado)
     tam = str(tam)
-
+    tamT = 0
+    #print(simb)
     arquivo = open('dotfiles/arq_' + tam + '.dot', 'w')
     arquivo.write("digraph maquina_de_estados { \n\t")
     arquivo.write("rankdir=LR;\n\t")
@@ -126,7 +135,7 @@ def gerarDotTransicoes2(lstadosi: list, lstadosf: list, ltrans: list,
     arquivo.write("node [shape = point];\n\t")
     arquivo.write("p\n\t")
     arquivo.write("node [shape = circle];\n\t")
-    arquivo.write("error [style=filled, fillcolor=white];\n\t")
+    #arquivo.write("error [style=filled, fillcolor=white];\n\t")
     for j in lstadosi:
         arquivo.write("p -> " + j + "\n\t")
     arquivo.write("node [shape = circle];\n\t")
@@ -138,16 +147,31 @@ def gerarDotTransicoes2(lstadosi: list, lstadosf: list, ltrans: list,
 
 #adicionar condicao de transicao
     for k in ltrans:
-        # if (currentState[0] == k.origem and k.trans == simb[0]):
-        #     arquivo.write(k.origem + " -> " + k.destino + "[label = " + "\"" +
-        #                   k.trans + "\"" + "]" + "[color=lime];" + "\n\t")
+        tamT = 0
+        for t in currentState:
 
-        if (currentState[0] == k.origem):
-            arquivo.write(k.origem + " -> " + k.destino + "[label = " + "\"" +
-                          k.trans + "\"" + "]" + "[color=magenta];" + "\n\t")
-        else:
-            arquivo.write(k.origem + " -> " + k.destino + "[label = " + "\"" +
-                          k.trans + "\"" + "]" + "[color=black];" + "\n\t")
+            tamT += 1
+
+            if (simb[0] == "*"):
+                arquivo.write(k.origem + " -> " + k.destino + "[label = " +
+                              "\"" + k.trans + "\"" + "]" + "[color=black];" +
+                              "\n\t")
+                break
+
+            if (t == k.origem and k.trans == simb[0]):
+                arquivo.write(k.origem + " -> " + k.destino + "[label = " +
+                              "\"" + k.trans + "\"" + "]" +
+                              "[color=magenta];" + "\n\t")
+                if (tamT == currentState.index(currentState[-1])):
+                    break
+
+            else:
+                if (tamT == currentState.index(currentState[-1])):
+                    arquivo.write("")
+                else:
+                    arquivo.write(k.origem + " -> " + k.destino + "[label = " +
+                                  "\"" + k.trans + "\"" + "]" +
+                                  "[color=black];" + "\n\t")
 
     arquivo.write("}")
     arquivo.close()
